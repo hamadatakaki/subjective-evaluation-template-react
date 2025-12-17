@@ -1,0 +1,14 @@
+# build outputs
+dist
+build
+
+# dependencies
+node_modules
+
+# config / root files
+*.config.*
+vite.config.*
+
+# only format src
+!src/**/*.ts
+!src/**/*.tsx

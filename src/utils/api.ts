@@ -5,22 +5,22 @@ const API_URL_BASE: string =
 
 type ApiRequest = {
   url: string
-  body: Record<string, unknown>
+  body?: Record<string, unknown>
   skip?: boolean
 }
 
-type ApiResponse<T> = {
+type ApiResponse<T, E> = {
   data?: T
-  error?: string
+  error?: E
   loaded: boolean
 }
 
-export function useApi<T>({
+export function useApi<T, E = string>({
   url: _url,
-  body,
+  body = {},
   skip = false,
-}: ApiRequest): ApiResponse<T> {
-  const [state, setState] = useState<ApiResponse<T>>({
+}: ApiRequest): ApiResponse<T, E> {
+  const [state, setState] = useState<ApiResponse<T, E>>({
     data: undefined,
     loaded: false,
     error: undefined,
@@ -44,24 +44,35 @@ export function useApi<T>({
       body: bodyString,
       signal: controller.signal,
     })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`HTTP ${res.status}`)
+      .then(async (res) => {
+        if (res.ok) {
+          return (await res.json()) as T
         }
-        return res.json() as Promise<T>
+        // error
+        const data = (await res.json()) as E
+        throw {
+          name: 'http-response-error',
+          ...data,
+        }
       })
       .then((data) => {
         setState({ data, loaded: true })
       })
       .catch((err) => {
-        if (err.name === 'AbortError') {
+        if (err === 'cleanup') {
           return
         }
-        setState({ error: err.message, loaded: true })
+        setState({ error: err, loaded: true })
       })
 
     return () => controller.abort('cleanup')
   }, [url, skip, bodyString])
+
+  useEffect(() => {
+    if (state.error != null) {
+      console.error(state.error)
+    }
+  }, [state.error])
 
   return state
 }

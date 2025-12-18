@@ -43,3 +43,14 @@
 .read-the-docs {
   color: #888;
 }
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.hstack {
+  display: flex;
+  gap: 4px;
+}

@@ -6,8 +6,14 @@ prd:
 	$(MAKE) build
 	php -S localhost:6006 -t dist
 
+reset:
+	rm server/*.json
+
 back-dev:
-	php -S localhost:6006
+	ENVIRONMENT=LOCAL php -S localhost:6006
 
 front-dev:
 	npm run dev
+
+archive:
+	zip -r website.zip dist/*

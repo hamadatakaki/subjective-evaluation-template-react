@@ -17,3 +17,6 @@ front-dev:
 
 archive:
 	zip -r website.zip dist/*
+
+reset:
+	rm -r server/output server/start-list.json server/finish-list.json

@@ -28,4 +28,5 @@ dist-ssr
 public/*
 server/start-list.json
 server/finish-list.json
+server/output/
 *.zip

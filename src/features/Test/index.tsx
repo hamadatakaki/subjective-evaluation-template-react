@@ -49,7 +49,7 @@ const TestPage: React.FC<TestProps> = ({
         }}
         disabled={isDisabled || value == null}
       >
-        次へ
+        Next
       </button>
     </>
   )

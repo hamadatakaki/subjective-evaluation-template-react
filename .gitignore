@@ -24,7 +24,7 @@ dist-ssr
 *.sw?
 
 .env
-.env.*
+.env.production
 public/*
 server/start-list.json
 server/finish-list.json

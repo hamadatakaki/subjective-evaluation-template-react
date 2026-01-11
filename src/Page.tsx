@@ -7,12 +7,17 @@ import TestPage from './features/Test'
 import ErrorPage from './features/Error'
 import FinishPage from './features/Finish'
 
+const IS_DEBUG: boolean =
+  import.meta.env.VITE_IS_DEBUG === 'true'
+
 const MainPage: React.FC = () => {
   const { state, onEntry, onNext, onStart, onError } =
     usePageState()
 
   useEffect(() => {
-    console.log('[debug] state', { ...state })
+    if (IS_DEBUG) {
+      console.log('[debug] state', { ...state })
+    }
   }, [state])
 
   if (state.step === 'entry') {
